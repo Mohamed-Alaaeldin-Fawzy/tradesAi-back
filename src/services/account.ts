@@ -30,7 +30,7 @@ export const getAccounts = async (token: any): Promise<any> => {
     });
     return response.data.accounts[0];
   } catch (error) {
-    console.error("Error fetching access token:", error);
-    throw new Error("Unable to fetch access token");
+    console.error("Error fetching accounts:", error);
+    throw new Error("Unable to fetch accounts");
   }
 };

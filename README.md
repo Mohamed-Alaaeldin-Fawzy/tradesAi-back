@@ -1,42 +1,27 @@
-# Chat Application
+# Backend - Trading API
 
 ## Overview
 
-This chat application allows users to engage in private conversations or create group chats with multiple participants. It provides a backend implemented in TypeScript, featuring a flexible architecture that includes models, repositories, and controllers for users, chats, and messages.
+This project is a Node.js backend API for a trading application. It connects to the TradeLocker API to fetch tradable instruments and place orders on an OspreyFX account.
 
-## Features
 
-- Private messaging between two users
-- Group chat functionality with support for numerous participants
-- Scalable architecture with separate models, repositories, and controllers
-- Support for in-memory and MongoDB storage options
-- Real-time message exchange
-- CRUD operations for users, chats, and messages
+## Prerequisites
+
+- Node.js (v14 or later)
+- npm (v6 or later)
 
 ## Technical Stack
 
 - Node.js
 - TypeScript
 - Express
-- jwt
-- webSocket
-- Mongoose (for MongoDB interaction)
-- In-memory data storage alternative (for testing)
 
-## Project Structure
-
-- `index.ts`: The entry point of the application.
-- `models`: Contains the `User`, `Chat`, and `Message` models defining the data structures.
-- `repositories`: Includes the base repository abstract classes and specific implementations (`InMemoryRepository` and `MongoRepository`) for each model.
-- `controllers`: Contains `User`, `Chat`, `Message`, and `Auth` controllers to handle the business logic.
-- `routes`: contain `User`, `Chat`, `Message`, `Auth`, and `invalid` to handel the routing system.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js
-- MongoDB or use Mongo Atlas
 
 ### Installation
 
@@ -50,24 +35,29 @@ This chat application allows users to engage in private conversations or create 
 2. run `npm start` to start the app in development mode
 3. The server will start on the specified port in the `.env` file, and you can begin interacting with the API.
 
+## Project Structure
+
+src/middlewares: Contains middleware functions for error handling, authentication, and request processing.
+src/routes: Contains route definitions for handling API requests.
+src/services: Contains service functions for interacting with the TradeLocker API.
+
 ## API Endpoints
 
-# Authentication
+/trades
+GET /trades
+Fetch a list of tradable instruments.
 
-- POST /register: Registers a new user.
-- POST /login: Authenticates a user.
+POST /trades/place-order
+Place a new order.
 
-# Users
+/account
+GET /account
+Fetch account details.
 
-- GET /user: Retrieves all users.
-- GET /user/me: Retrieves the profile of the current user.
+## Error Handling
 
-# Chats
+The project uses custom error handling middleware to manage errors and send appropriate responses to the client.
 
-- GET /chat: Retrieves all chats for the current user.
-- POST /chat: Creates a new chat.
+## Authentication
 
-# Messages
-
-- GET /message/:chatId: Retrieves messages for a given chat.
-- POST /message/:chatId: Creates a new message in a chat.
+The attachAccessToken middleware is used to attach a valid access token to requests, refreshing the token if necessary.
