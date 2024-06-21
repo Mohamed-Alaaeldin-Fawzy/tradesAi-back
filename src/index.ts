@@ -31,6 +31,10 @@ app.use(attachAccessToken);
 
 app.use(attachAccountNumber);
 
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome to my API");
+});
+
 app.use("/", accountDetailsRoute);
 
 app.use("/trades", orderRoutes);
