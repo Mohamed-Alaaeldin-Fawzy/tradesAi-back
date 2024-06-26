@@ -1,6 +1,8 @@
 import axios from "axios";
 import { setTokens, getRefreshToken } from "./tokenManager";
+import dotenv from "dotenv";
 
+dotenv.config();
 const API_URL = process.env.BASE_URL;
 
 export const refreshAccessToken = async (): Promise<string> => {

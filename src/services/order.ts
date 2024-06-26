@@ -48,24 +48,46 @@ export const getTradableInstrumentList = async (data: any): Promise<void> => {
 export const getTradableInstrumentDetails = async (
   data: any
 ): Promise<void> => {
+  const now = new Date();
+  const prev = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+
+  try {
+    const response = await axios.get(`${API_URL}/trade/history`, {
+      headers: {
+        Authorization: data.token,
+        accNum: data.accNum,
+      },
+      params: {
+        routeId: data.routeId,
+        barType: "BID",
+        tradableInstrumentId: data.tradableInstrumentId,
+        from: prev.getTime(),
+        resolution: "1D",
+        to: now.getTime(),
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching account instrument data:", error);
+    throw new Error("Unable to fetch account instrument data");
+  }
+};
+export const getPositions = async (data: any): Promise<void> => {
   try {
     const response = await axios.get(
-      `${API_URL}/trade/instruments/${data.tradableInstrumentId}`,
+      `${API_URL}/trade/accounts/${accountId}/positions`,
       {
         headers: {
           Authorization: data.token,
           accNum: data.accNum,
-        },
-        params: {
-          routeId: data.routeId || 229,
-          locale: data.locale || "en",
         },
       }
     );
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching account instrument setting:", error);
-    throw new Error("Unable to fetch account instrument setting");
+    console.error("Error fetching account positions:", error);
+    throw new Error("Unable to fetch account positions");
   }
 };
